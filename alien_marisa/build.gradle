@@ -1,0 +1,51 @@
+plugins {
+    id 'java-library'
+    id 'net.neoforged.moddev' version '2.0.143'
+}
+
+version = project.mod_version
+group = project.mod_group_id
+
+base {
+    archivesName = project.mod_id
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+    withSourcesJar()
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+neoForge {
+    // NeoForge 版本（1.21.1 分支）
+    version = project.neo_version
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.compilerArgs << '-Xlint:-unchecked' << '-Xlint:-deprecation'
+}
+
+// 把 mods.toml 里的 ${} 占位替换掉（版本只需要在 gradle.properties 里改一次）
+tasks.named('processResources', ProcessResources).configure {
+    def replaceProperties = [
+            mod_id          : project.mod_id,
+            mod_name        : project.mod_name,
+            mod_version     : project.mod_version,
+            mod_authors     : project.mod_authors,
+            mod_description : project.mod_description,
+            mod_license     : project.mod_license,
+            minecraft_version: project.minecraft_version,
+            neo_version     : project.neo_version
+    ]
+    inputs.properties replaceProperties
+    filesMatching(['META-INF/neoforge.mods.toml']) {
+        expand replaceProperties
+    }
+}

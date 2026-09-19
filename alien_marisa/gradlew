@@ -1,0 +1,32 @@
+#!/bin/sh
+#
+# Gradle 启动脚本（标准 wrapper）。
+# 注意：本仓库未附带 gradle-wrapper.jar（需本机生成）。
+# 首次使用前请在项目根目录执行一次：gradle wrapper --gradle-version 8.8
+# 该命令会生成 gradle/wrapper/gradle-wrapper.jar，之后 ./gradlew 即可正常使用。
+#
+set -e
+
+APP_HOME=$(cd "$(dirname "$0")" && pwd)
+CLASSPATH="$APP_HOME/gradle/wrapper/gradle-wrapper.jar"
+
+if [ ! -f "$CLASSPATH" ]; then
+    echo "缺少 $CLASSPATH"
+    echo "请先执行: gradle wrapper --gradle-version 8.8"
+    exit 1
+fi
+
+if [ -n "$JAVA_HOME" ] && [ -x "$JAVA_HOME/bin/java" ]; then
+    JAVACMD="$JAVA_HOME/bin/java"
+else
+    JAVACMD=$(command -v java || true)
+fi
+
+if [ ! -x "$JAVACMD" ]; then
+    echo "找不到 java，请安装 JDK 21 或设置 JAVA_HOME"
+    exit 1
+fi
+
+exec "$JAVACMD" -Xmx3G -Dorg.gradle.appname=gradlew \
+    -classpath "$CLASSPATH" \
+    org.gradle.wrapper.GradleWrapperMain "$@"

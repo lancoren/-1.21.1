@@ -1,0 +1,35 @@
+# ============================================================
+#  异形魔理沙 / Alien Marisa  —— Step 1+2 工程
+#  观测录制（看一眼就学会） + 复现回敬（用你的招打你）
+#  NeoForge 1.21.1 / Java 21
+# ============================================================
+
+modLoader="javafml"
+loaderVersion="[4,)"
+issueTrackerURL=""
+license="${mod_license}"
+showAsResourcePack=false
+services=""
+
+[[mods]]
+modId="${mod_id}"
+version="${mod_version}"
+displayName="${mod_name}"
+authors="${mod_authors}"
+description="${mod_description}"
+logoFile=""
+displayTest="NONE"
+
+[[dependencies.${mod_id}]]
+    modId="neoforge"
+    type="required"
+    versionRange="[21.1.0,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.${mod_id}]]
+    modId="minecraft"
+    type="required"
+    versionRange="[1.21.1,)"
+    ordering="NONE"
+    side="BOTH"
